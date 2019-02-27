@@ -1,15 +1,15 @@
 import { Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
-export class Todo {
+export class Link {
     @PrimaryGeneratedColumn()
     public id: number;
 
     @Column()
-    public name: string = '';
+    public title: string = '';
 
     @Column()
-    public isComplete: boolean = false;
+    public url: string = '';
 }
 
-export default Todo;
+export default Link;
