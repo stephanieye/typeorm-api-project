@@ -22,13 +22,11 @@ createConnection().then(async (connection) => {
   });
   
   app.get('/links', async (req, res) => {
-    console.log('i the connection', connection)
     const links = await getManager().find(Link);
     res.send(links);
   });
 
   app.get('/links/:id', async (req, res) => {
-    console.log(req.params)
     const link = await getRepository(Link).findOne(req.params.id);
     res.send(link);
   });
@@ -40,7 +38,13 @@ createConnection().then(async (connection) => {
     await getManager().save(link);
     res.send(link);
 });
+
+  app.delete('/links/:id', async (req, res) => {
+    const link = await getRepository(Link).findOne(req.params.id);
+    await getManager().remove(link);
+    res.send('Deleted 😿')
+});
   
   
-  app.listen(port, () => console.log(`I am listening on port ${port}!!! 😸`));
+  app.listen(port, () => console.log(`I am listening on port ${port} 😸`));
 }).catch((error) => console.log(error));
