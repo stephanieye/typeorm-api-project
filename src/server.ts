@@ -10,7 +10,7 @@ import PostgressConnectionStringParser from "pg-connection-string";
 
 
 const port = process.env.PORT || 3000;
-let connection = createConnection();
+let connection
 
 if (process.env.PORT) {
 const databaseUrl: string = process.env.DATABASE_URL;
@@ -28,7 +28,9 @@ const typeOrmOptions: any = {
         ssl: true
     }
 };
-connection = createConnection(typeOrmOptions);
+  connection = createConnection(typeOrmOptions);
+} else {
+  connection = createConnection();
 }
 
 connection.then(async () => {
