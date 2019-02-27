@@ -12,11 +12,12 @@ import PostgressConnectionStringParser from "pg-connection-string";
 const port = process.env.PORT || 3000;
  
 const databaseUrl: string = process.env.DATABASE_URL;
-let typeOrmOptions: any = null;
+const typeOrmOptions: any = isHeroku()
 
+function isHeroku() {
 if (process.env.DATABASE_URL) {
 const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
-typeOrmOptions = {
+return {
     type: "postgres",
     host: connectionOptions.host,
     port: connectionOptions.port,
@@ -29,6 +30,7 @@ typeOrmOptions = {
         ssl: true
     }
 };
+} else return null
 }
 
 const connection = createConnection(typeOrmOptions);
