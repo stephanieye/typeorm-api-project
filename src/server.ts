@@ -6,10 +6,31 @@ import bodyParser from 'body-parser'
 import helmet from "helmet";
 import cors from "cors";
 import routes from "./routes";
+import PostgressConnectionStringParser from "pg-connection-string";
+
 
 const port = process.env.PORT || 3000;
+let connection = createConnection();
 
-createConnection().then(async () => {
+if (process.env.PORT) {
+const databaseUrl: string = process.env.DATABASE_URL;
+const connectionOptions = PostgressConnectionStringParser.parse(databaseUrl);
+const typeOrmOptions: any = {
+    type: "postgres",
+    host: connectionOptions.host,
+    port: connectionOptions.port,
+    password: connectionOptions.password,
+    database: connectionOptions.database,
+    synchronize: true,
+    entities: ["target/entity/**/*.js"],
+    extra: {
+        ssl: true
+    }
+};
+connection = createConnection(typeOrmOptions);
+}
+
+connection.then(async () => {
 
   const app = express();
   app.use(cors());
