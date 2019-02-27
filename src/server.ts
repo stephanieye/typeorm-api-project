@@ -19,7 +19,7 @@ const typeOrmOptions: any = {
     type: "postgres",
     host: connectionOptions.host,
     port: connectionOptions.port,
-    username: connectionOptions.username,
+    username: "kitteh",
     password: connectionOptions.password,
     database: connectionOptions.database,
     synchronize: true,
