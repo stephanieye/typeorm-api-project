@@ -6,7 +6,7 @@
   "scripts": {
     "build-ts": "tsc",
     "postinstall": "npm run build-ts",
-    "start": "npm run serve",
+    "start": "npm run build-ts && npm run serve",
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
     "watch-ts": "tsc -w"
