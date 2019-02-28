@@ -26,9 +26,10 @@ https://github.com/larkintuckerllc/hello-nodejs-typescript
 Started out creating my first entity, Link, with the help of this blog post: 
 https://codeburst.io/typescript-node-starter-simplified-60c7b7d99e27
 
-Then moved on to authentication with JWT with the help of 
+Then moved on to authentication with JWT with the help of: 
 https://medium.com/javascript-in-plain-english/creating-a-rest-api-with-jwt-authentication-and-role-based-authorization-using-typescript-fbfa3cab22a4
 
+Now need to do comments logic (March 1)
 
 *Tools*
 Database is Postgres.app: https://postgresapp.com/
