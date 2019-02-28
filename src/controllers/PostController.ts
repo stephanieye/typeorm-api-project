@@ -25,6 +25,10 @@ static getOneById = async (req: Request, res: Response) => {
 static newPost = async (req: Request, res: Response) => {
   const currentUserId = res.locals.jwtPayload.userId;
   let { title, url, text } = req.body;
+  if (url && text) {
+    res.status(400).send('Sorry, you can either post a url or text, not both! 😾');
+    return;
+  }
   let post = new Post();
   post.title = title;
   post.url = url || '';
@@ -49,6 +53,10 @@ static newPost = async (req: Request, res: Response) => {
 static editPost = async (req: Request, res: Response) => {
   const id = req.params.id;
   const { title, url, text } = req.body;
+  if (url && text) {
+    res.status(400).send('Sorry, you can either post a url or text, not both! 😾');
+    return;
+  }
   const postRepository = getRepository(Post);
   let post;
   try {
@@ -58,8 +66,8 @@ static editPost = async (req: Request, res: Response) => {
     return;
   }
   post.title = title;
-  post.url = url;
-  post.text = text;
+  post.url = url || '';
+  post.text = text || '';
   const errors = await validate(post);
   if (errors.length > 0) {
     res.status(400).send(errors);
