@@ -46,4 +46,4 @@ connection.then(async () => {
   app.use("/", routes);
   
   app.listen(port, () => console.log(`I am listening on port ${port} 😸`));
-}).catch((error) => console.log(error));
+}).catch((error) => console.log('Uh-oh 😿', error));
