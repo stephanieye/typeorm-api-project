@@ -8,7 +8,7 @@ class UserController{
 static listAll = async (req: Request, res: Response) => {
   const userRepository = getRepository(User);
   const users = await userRepository.find({
-    select: ["id", "username", "role"]
+    select: ["id", "username"]
   });
   res.send(users);
 };
@@ -18,7 +18,7 @@ static getOneById = async (req: Request, res: Response) => {
   const userRepository = getRepository(User);
   try {
     const user = await userRepository.findOneOrFail(id, {
-      select: ["id", "username", "role"]
+      select: ["id", "username"]
     });
     res.send(user);
   } catch (error) {
@@ -31,7 +31,6 @@ static newUser = async (req: Request, res: Response) => {
   let user = new User();
   user.username = username;
   user.password = password;
-  user.role = role;
   const errors = await validate(user);
   if (errors.length > 0) {
     res.status(400).send(errors);
@@ -50,7 +49,7 @@ static newUser = async (req: Request, res: Response) => {
 
 static editUser = async (req: Request, res: Response) => {
   const id = req.params.id;
-  const { username, role } = req.body;
+  const { username } = req.body;
   const userRepository = getRepository(User);
   let user;
   try {
@@ -60,7 +59,6 @@ static editUser = async (req: Request, res: Response) => {
     return;
   }
   user.username = username;
-  user.role = role;
   const errors = await validate(user);
   if (errors.length > 0) {
     res.status(400).send(errors);
