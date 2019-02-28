@@ -7,7 +7,7 @@ const router = Router();
 
 router.get("/", UserController.listAll);
 
-router.get('/:id', [checkJwt, checkPrivateRoute], UserController.getOneById
+router.get('/:id', checkJwt, UserController.getOneById
 );
 
 router.post("/", UserController.newUser);

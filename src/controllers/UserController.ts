@@ -27,7 +27,7 @@ static getOneById = async (req: Request, res: Response) => {
 };
 
 static newUser = async (req: Request, res: Response) => {
-  let { username, password, role } = req.body;
+  let { username, password } = req.body;
   let user = new User();
   user.username = username;
   user.password = password;

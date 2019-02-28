@@ -18,10 +18,12 @@ export class User {
   
     @Column()
     @Length(4, 20)
+    @IsNotEmpty()
     username: string;
   
     @Column()
     @Length(4, 100)
+    @IsNotEmpty()
     password: string;
   
     @Column()

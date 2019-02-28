@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import auth from "./auth";
 import user from "./user";
-import link from "./link";
+import post from "./post";
 
 const routes = Router();
 
@@ -9,6 +9,6 @@ routes.get('/', (req, res) => res.send("This is Stephanie's first backend app wi
 
 routes.use("/auth", auth);
 routes.use("/users", user);
-routes.use("/links", link);
+routes.use("/posts", post);
 
 export default routes;
