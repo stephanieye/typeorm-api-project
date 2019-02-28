@@ -25,7 +25,7 @@ return {
     password: connectionOptions.password,
     database: connectionOptions.database,
     synchronize: true,
-    entities: ["target/entity/**/*.ts"],
+    entities: [__dirname + "/entity/*.ts"],
     extra: {
         ssl: true
     }
