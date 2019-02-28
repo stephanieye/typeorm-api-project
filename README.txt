@@ -23,8 +23,10 @@ Bonus steps (no specific order):
 Created using hello-nodejs-typescript starter code: 
 https://github.com/larkintuckerllc/hello-nodejs-typescript
 
-Started out creating my first entity, Link, with the help of this blog post: 
+Started out with the help of this blog post: 
 https://codeburst.io/typescript-node-starter-simplified-60c7b7d99e27
+And this series:
+https://codeburst.io/typeorm-by-example-part-1-6d6da04f9f23
 
 Then moved on to authentication with JWT with the help of: 
 https://medium.com/javascript-in-plain-english/creating-a-rest-api-with-jwt-authentication-and-role-based-authorization-using-typescript-fbfa3cab22a4
