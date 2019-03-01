@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express'
 
 export const checkIsUser = (req: Request, res: Response, next: NextFunction) => {
-  const currentUserId = res.locals.jwtPayload.userId;
+  const currentUserId = res.locals.jwtPayload.userId
   if (currentUserId === Number(req.params.id)) {
-    next();
+    next()
   } else {
-    res.status(401).send();
-    return;
+    res.status(401).send()
+    return
   }
-};
+}

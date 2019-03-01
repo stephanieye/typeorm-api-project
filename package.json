@@ -10,7 +10,7 @@
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
     "watch-ts": "tsc -w",
-    "tslint": "tslint -c tslint.json 'src/**/*.ts'",
+    "tslint": "./node_modules/.bin/tslint --format stylish --config ./tslint.json 'src/**/*.ts'",
     "tslint:fix": "npm run tslint -- --fix"
   },
   "author": "",
@@ -39,6 +39,7 @@
     "prettier": "^1.16.4",
     "reflect-metadata": "^0.1.13",
     "ts-node-dev": "^1.0.0-pre.32",
+    "tslint-config-airbnb": "^5.11.1",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
     "typeorm": "^0.2.14"

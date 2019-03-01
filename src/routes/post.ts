@@ -1,22 +1,22 @@
-import { Router } from 'express';
-import PostController from '../controllers/PostController';
-import { checkIsAuthor } from '../middlewares/checkIsAuthor';
-import { checkJwt } from '../middlewares/checkJwt';
+import { Router } from 'express'
+import PostController from '../controllers/PostController'
+import { checkIsAuthor } from '../middlewares/checkIsAuthor'
+import { checkJwt } from '../middlewares/checkJwt'
 
-const router = Router();
+const router = Router()
 
-router.get('/', PostController.listAll);
+router.get('/', PostController.listAll)
 
-router.get('/:id', PostController.getOneById);
+router.get('/:id', PostController.getOneById)
 
-router.post('/', checkJwt, PostController.newPost);
+router.post('/', checkJwt, PostController.newPost)
 
-router.patch('/:id', [checkJwt, checkIsAuthor], PostController.editPost);
+router.patch('/:id', [checkJwt, checkIsAuthor], PostController.editPost)
 
-router.delete('/:id', [checkJwt, checkIsAuthor], PostController.deletePost);
+router.delete('/:id', [checkJwt, checkIsAuthor], PostController.deletePost)
 
-router.get('/:id/comments', PostController.listAllComments);
+router.get('/:id/comments', PostController.listAllComments)
 
-router.post('/:id/comments', [checkJwt], PostController.newComment);
+router.post('/:id/comments', [checkJwt], PostController.newComment)
 
-export default router;
+export default router

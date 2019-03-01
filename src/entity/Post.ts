@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator'
 import {
   Column,
   CreateDateColumn,
@@ -7,38 +7,38 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import Comment from './Comment';
-import User from './User';
+} from 'typeorm'
+import Comment from './Comment'
+import User from './User'
 
 @Entity()
 export class Post {
   @PrimaryGeneratedColumn()
-  public id: number;
+  public id: number
 
   @Column()
   @IsNotEmpty()
-  public title: string;
+  public title: string
 
   @Column()
-  public url: string;
+  public url: string
 
   @Column()
-  public text: string;
+  public text: string
 
   @ManyToOne(() => User, user => user.posts, { eager: true })
-  public user: User;
+  public user: User
 
   @OneToMany(() => Comment, comment => comment.post)
-  public comments: Comment[];
+  public comments: Comment[]
 
   @Column()
   @CreateDateColumn()
-  public createdAt: Date;
+  public createdAt: Date
 
   @Column()
   @UpdateDateColumn()
-  public updatedAt: Date;
+  public updatedAt: Date
 }
 
-export default Post;
+export default Post

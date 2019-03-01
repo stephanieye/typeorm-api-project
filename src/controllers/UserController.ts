@@ -1,99 +1,99 @@
-import { validate } from 'class-validator';
-import { Request, Response } from 'express';
-import { createQueryBuilder, getRepository } from 'typeorm';
-import { User } from '../entity/User';
+import { validate } from 'class-validator'
+import { Request, Response } from 'express'
+import { createQueryBuilder, getRepository } from 'typeorm'
+import { User } from '../entity/User'
 
 class UserController {
   public static listAll = async (req: Request, res: Response) => {
-    const userRepository = getRepository(User);
+    const userRepository = getRepository(User)
     try {
       const users = await userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.posts', 'post')
         .leftJoinAndSelect('user.comments', 'comment')
-        .getMany();
-      res.send(users);
+        .getMany()
+      res.send(users)
     } catch (error) {
-      res.status(404).send();
+      res.status(404).send()
     }
-  };
+  }
 
   public static getOneById = async (req: Request, res: Response) => {
-    const id: number = req.params.id;
-    const userRepository = getRepository(User);
+    const id: number = req.params.id
+    const userRepository = getRepository(User)
     try {
       const user = await userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.posts', 'post')
         .leftJoinAndSelect('user.comments', 'comment')
         .where('user.id = :id', { id })
-        .getOne();
-      res.send(user);
+        .getOne()
+      res.send(user)
     } catch (error) {
-      res.status(404).send('User not found');
+      res.status(404).send('User not found')
     }
-  };
+  }
 
   public static newUser = async (req: Request, res: Response) => {
-    const { username, password } = req.body;
-    const user = new User();
-    user.username = username;
-    user.password = password;
-    const errors = await validate(user);
+    const { username, password } = req.body
+    const user = new User()
+    user.username = username
+    user.password = password
+    const errors = await validate(user)
     if (errors.length > 0) {
-      res.status(400).send(errors);
-      return;
+      res.status(400).send(errors)
+      return
     }
-    user.hashPassword();
-    const userRepository = getRepository(User);
+    user.hashPassword()
+    const userRepository = getRepository(User)
     try {
-      await userRepository.save(user);
+      await userRepository.save(user)
     } catch (e) {
-      res.status(409).send('Sorry, this username already exists 😿');
-      return;
+      res.status(409).send('Sorry, this username already exists 😿')
+      return
     }
-    res.status(201).send('User created');
-  };
+    res.status(201).send('User created')
+  }
 
   public static editUser = async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const { username } = req.body;
-    const userRepository = getRepository(User);
-    let user;
+    const id = req.params.id
+    const { username } = req.body
+    const userRepository = getRepository(User)
+    let user
     try {
-      user = await userRepository.findOneOrFail(id);
+      user = await userRepository.findOneOrFail(id)
     } catch (error) {
-      res.status(404).send('User not found');
-      return;
+      res.status(404).send('User not found')
+      return
     }
-    user.username = username;
-    const errors = await validate(user);
+    user.username = username
+    const errors = await validate(user)
     if (errors.length > 0) {
-      res.status(400).send(errors);
-      return;
+      res.status(400).send(errors)
+      return
     }
     try {
-      await userRepository.save(user);
+      await userRepository.save(user)
     } catch (e) {
-      res.status(409).send('Sorry, this username already exists 😿');
-      return;
+      res.status(409).send('Sorry, this username already exists 😿')
+      return
     }
-    res.status(204).send();
-  };
+    res.status(204).send()
+  }
 
   public static deleteUser = async (req: Request, res: Response) => {
-    const id = req.params.id;
-    const userRepository = getRepository(User);
-    let user: User;
+    const id = req.params.id
+    const userRepository = getRepository(User)
+    let user: User
     try {
-      user = await userRepository.findOneOrFail(id);
+      user = await userRepository.findOneOrFail(id)
     } catch (error) {
-      res.status(404).send('User not found');
-      return;
+      res.status(404).send('User not found')
+      return
     }
-    userRepository.delete(id);
-    res.status(204).send('Goodbye!');
-  };
+    userRepository.delete(id)
+    res.status(204).send('Goodbye!')
+  }
 }
 
-export default UserController;
+export default UserController

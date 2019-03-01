@@ -1,17 +1,23 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended",
-        "tslint-config-prettier"
-    ],
-    "jsRules": {},
+    "extends": "tslint-config-airbnb",
     "rules": {
-        "interface-name": false,
-        "no-console": false,
-        "prettier": true,
-        "quotemark": [true, "single"]
-    },
-    "rulesDirectory": [
-        "tslint-plugin-prettier"
-    ]
-}
+      "semicolon": [
+        true,
+        "never"
+      ],
+      "variable-name": [false],
+      "max-line-length": {
+        "options": [
+          140
+        ],
+        "severity": "warning"
+      },
+  
+      "no-else-after-return": [
+        "error",
+        {
+          "allowElseIf": "true"
+        }
+      ]
+    }
+  }
