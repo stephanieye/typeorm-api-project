@@ -41,8 +41,8 @@ Endpoints
 - GET /users
 - GET /users/:id
 - POST /users
-- PATCH /users/:id (needs authorisation with checkJwt and checkIsUser)
-- DELETE /users/:id (needs authorisation with checkJwt and checkIsUser)
+- PATCH /users/:id (needs authorisation with checkJwt and checkIsUser middlewares)
+- DELETE /users/:id (needs authorisation with checkJwt and checkIsUser middlewares)
 
 POST
 
@@ -53,9 +53,9 @@ Relationships
 Endpoints
 - GET /posts
 - GET /posts/:id
-- POST /posts (needs authorisation with checkJwt and checkPrivateRoute)
-- PATCH /posts/:id (needs authorisation with checkJwt and checkIsUser)
-- DELETE /posts/:id (needs authorisation with checkJwt and checkIsUser)
+- POST /posts (needs authorisation with checkJwt middleware)
+- PATCH /posts/:id (needs authorisation with checkJwt and checkIsAuthor middlewares)
+- DELETE /posts/:id (needs authorisation with checkJwt and checkIsAuthor middlewares)
 
 COMMENT
 
@@ -66,9 +66,9 @@ Relationships
 Endpoints
 - GET /comments
 - GET /comments/:id
-- POST /comments (needs authorisation with checkJwt and checkPrivateRoute)
-- PATCH /comments/:id (needs authorisation with checkJwt and checkIsUser)
-- DELETE /comments/:id (needs authorisation with checkJwt and checkIsUser)
+- POST /comments (needs authorisation with checkJwt middleware)
+- PATCH /comments/:id (needs authorisation with checkJwt and checkIsCommenter middlewares)
+- DELETE /comments/:id (needs authorisation with checkJwt and checkIsCommenter middlewares)
 
 ==========================================================================
 

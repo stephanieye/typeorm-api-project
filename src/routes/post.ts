@@ -7,7 +7,7 @@ import { checkIsAuthor } from "../middlewares/checkIsAuthor";
   
   router.get('/', PostController.listAll);
   
-  router.get('/:id', checkJwt, PostController.getOneById
+  router.get('/:id', PostController.getOneById
   );
 
   router.post("/", checkJwt, PostController.newPost);

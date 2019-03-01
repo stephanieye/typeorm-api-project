@@ -1,22 +1,22 @@
 import { Router, Response } from "express";
 import UserController from "../controllers/UserController";
 import { checkJwt } from "../middlewares/checkJwt";
-import { checkPrivateRoute } from "../middlewares/checkPrivateRoute";
+import { checkIsUser } from "../middlewares/checkIsUser";
 
 const router = Router();
 
 router.get("/", UserController.listAll);
 
-router.get('/:id', checkJwt, UserController.getOneById
+router.get('/:id', UserController.getOneById
 );
 
 router.post("/", UserController.newUser);
 
-router.patch('/:id', [checkJwt, checkPrivateRoute],
+router.patch('/:id', [checkJwt, checkIsUser],
 UserController.editUser
 );
 
-router.delete('/:id', [checkJwt, checkPrivateRoute],
+router.delete('/:id', [checkJwt, checkIsUser],
 UserController.deleteUser
 );
 
