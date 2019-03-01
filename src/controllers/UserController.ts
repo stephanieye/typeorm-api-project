@@ -7,10 +7,16 @@ class UserController{
 
 static listAll = async (req: Request, res: Response) => {
   const userRepository = getRepository(User);
-  const users = await userRepository.find({
-    select: ["id", "username"]
-  });
-  res.send(users);
+  try {
+    const users = await userRepository
+    .createQueryBuilder("user")
+    .leftJoinAndSelect("user.posts", "post")
+    .leftJoinAndSelect("user.comments", "comment")
+    .getMany();
+    res.send(users);
+  } catch (error) {
+    res.status(404).send();
+  }
 };
 
 static getOneById = async (req: Request, res: Response) => {
@@ -20,6 +26,7 @@ static getOneById = async (req: Request, res: Response) => {
     const user = await userRepository
     .createQueryBuilder("user")
     .leftJoinAndSelect("user.posts", "post")
+    .leftJoinAndSelect("user.comments", "comment")
     .where("user.id = :id", { id: id })
     .getOne();
     res.send(user);
@@ -57,7 +64,7 @@ static editUser = async (req: Request, res: Response) => {
   try {
     user = await userRepository.findOneOrFail(id);
   } catch (error) {
-    res.status(404).send("Sorry, user not found 😿");
+    res.status(404).send("User not found");
     return;
   }
   user.username = username;
@@ -82,11 +89,11 @@ static deleteUser = async (req: Request, res: Response) => {
   try {
     user = await userRepository.findOneOrFail(id);
   } catch (error) {
-    res.status(404).send("Sorry, user not found 😿");
+    res.status(404).send("User not found");
     return;
   }
   userRepository.delete(id);
-  res.status(204).send();
+  res.status(204).send('Goodbye!');
 };
 };
 

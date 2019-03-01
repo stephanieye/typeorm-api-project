@@ -31,7 +31,7 @@ static newPost = async (req: Request, res: Response) => {
   try {
     user = await userRepository.findOneOrFail(currentUserId);
   } catch (error) {
-    res.status(404).send("User is not found");
+    res.status(404).send("User not found");
     return
   }
   let { title, url, text } = req.body;
@@ -72,7 +72,7 @@ static editPost = async (req: Request, res: Response) => {
   try {
     post = await postRepository.findOneOrFail(id);
   } catch (error) {
-    res.status(404).send("Sorry, post not found 😿");
+    res.status(404).send("Post not found");
     return;
   }
   post.title = title;
@@ -103,7 +103,7 @@ static deletePost = async (req: Request, res: Response) => {
     return;
   }
   postRepository.delete(id);
-  res.status(204).send();
+  res.status(204).send('Post deleted');
 };
 
 static listAllComments = async (req: Request, res: Response) => {
@@ -129,7 +129,7 @@ static newComment = async (req: Request, res: Response) => {
   try {
     post = await postRepository.findOneOrFail(currentPostId);
   } catch (error) {
-    res.status(404).send("Post is not found");
+    res.status(404).send("Post not found");
     return
   }
   const userRepository = getRepository(User);
@@ -137,7 +137,7 @@ static newComment = async (req: Request, res: Response) => {
   try {
     user = await userRepository.findOneOrFail(currentUserId);
   } catch (error) {
-    res.status(404).send("User is not found");
+    res.status(404).send("User not found");
     return
   }
   let { text } = req.body;

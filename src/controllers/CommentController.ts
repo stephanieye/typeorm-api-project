@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { validate } from "class-validator";
 import { Comment } from "../entity/Comment";
-import { Post } from "../entity/Post";
-import { User } from "../entity/User";
 
 class CommentController{
 
@@ -32,7 +30,7 @@ static editComment = async (req: Request, res: Response) => {
   try {
     comment = await commentRepository.findOneOrFail(id);
   } catch (error) {
-    res.status(404).send("Sorry, comment not found 😿");
+    res.status(404).send("Comment not found");
     return;
   }
   comment.text = text;
@@ -61,7 +59,7 @@ static deleteComment = async (req: Request, res: Response) => {
     return;
   }
   commentRepository.delete(id);
-  res.status(204).send();
+  res.status(204).send('Comment deleted');
 };
 };
 
