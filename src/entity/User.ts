@@ -1,55 +1,54 @@
+import * as bcrypt from 'bcryptjs';
+import { IsNotEmpty, Length } from 'class-validator';
 import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    Unique,
-    CreateDateColumn,
-    UpdateDateColumn,
-    OneToMany
-    } from "typeorm";
-import { Length, IsNotEmpty } from "class-validator";
-import Post from './Post';
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  Unique,
+  UpdateDateColumn,
+} from 'typeorm';
 import Comment from './Comment';
-import * as bcrypt from "bcryptjs";
-  
+import Post from './Post';
+
 @Entity()
-@Unique(["username"])
-
+@Unique(['username'])
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
-  
-    @Column()
-    @Length(4, 20)
-    @IsNotEmpty()
-    username: string;
-  
-    @Column()
-    @Length(4, 100)
-    @IsNotEmpty()
-    password: string;
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-    @OneToMany(() => Post, (post) => post.user)
-    posts: Post[];
+  @Column()
+  @Length(4, 20)
+  @IsNotEmpty()
+  public username: string;
 
-    @OneToMany(() => Comment, (comment) => comment.user)
-    comments: Comment[];
-  
-    @Column()
-    @CreateDateColumn()
-    createdAt: Date;
-  
-    @Column()
-    @UpdateDateColumn()
-    updatedAt: Date;
-  
-    hashPassword() {
-      this.password = bcrypt.hashSync(this.password, 8);
-    }
-  
-    checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
-      return bcrypt.compareSync(unencryptedPassword, this.password);
-    }
+  @Column()
+  @Length(4, 100)
+  @IsNotEmpty()
+  public password: string;
+
+  @OneToMany(() => Post, post => post.user)
+  public posts: Post[];
+
+  @OneToMany(() => Comment, comment => comment.user)
+  public comments: Comment[];
+
+  @Column()
+  @CreateDateColumn()
+  public createdAt: Date;
+
+  @Column()
+  @UpdateDateColumn()
+  public updatedAt: Date;
+
+  public hashPassword() {
+    this.password = bcrypt.hashSync(this.password, 8);
   }
 
-  export default User
+  public checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
+    return bcrypt.compareSync(unencryptedPassword, this.password);
+  }
+}
+
+export default User;

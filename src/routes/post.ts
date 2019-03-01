@@ -1,31 +1,22 @@
-import { Router } from "express";
-import PostController from "../controllers/PostController";
-import { checkJwt } from "../middlewares/checkJwt";
-import { checkIsAuthor } from "../middlewares/checkIsAuthor";
+import { Router } from 'express';
+import PostController from '../controllers/PostController';
+import { checkIsAuthor } from '../middlewares/checkIsAuthor';
+import { checkJwt } from '../middlewares/checkJwt';
 
-  const router = Router();
-  
-  router.get('/', PostController.listAll);
-  
-  router.get('/:id', PostController.getOneById
-  );
+const router = Router();
 
-  router.post("/", checkJwt, PostController.newPost);
-  
-  router.patch('/:id', [checkJwt, checkIsAuthor],
-  PostController.editPost
-  );
+router.get('/', PostController.listAll);
 
-  router.delete('/:id', [checkJwt, checkIsAuthor],
-  PostController.deletePost
-  );
+router.get('/:id', PostController.getOneById);
 
-  router.get('/:id/comments',
-  PostController.listAllComments
-  );
+router.post('/', checkJwt, PostController.newPost);
 
-  router.post('/:id/comments', [checkJwt],
-  PostController.newComment
-  );
+router.patch('/:id', [checkJwt, checkIsAuthor], PostController.editPost);
 
-  export default router;
+router.delete('/:id', [checkJwt, checkIsAuthor], PostController.deletePost);
+
+router.get('/:id/comments', PostController.listAllComments);
+
+router.post('/:id/comments', [checkJwt], PostController.newComment);
+
+export default router;

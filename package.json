@@ -10,7 +10,8 @@
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
     "watch-ts": "tsc -w",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
+    "tslint": "tslint -c tslint.json 'src/**/*.ts'",
+    "tslint:fix": "npm run tslint -- --fix"
   },
   "author": "",
   "license": "ISC",

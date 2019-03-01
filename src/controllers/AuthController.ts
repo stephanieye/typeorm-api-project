@@ -1,15 +1,13 @@
-
-import { Request, Response } from "express";
-import * as jwt from "jsonwebtoken";
-import { getRepository } from "typeorm";
-import { validate } from "class-validator";
-import { User } from "../entity/User";
-import config from "../config/config";
+import { validate } from 'class-validator';
+import { Request, Response } from 'express';
+import * as jwt from 'jsonwebtoken';
+import { getRepository } from 'typeorm';
+import config from '../config/config';
+import { User } from '../entity/User';
 
 class AuthController {
-  
-    static login = async (req: Request, res: Response) => {
-    let { username, password } = req.body;
+  public static login = async (req: Request, res: Response) => {
+    const { username, password } = req.body;
     if (!(username && password)) {
       res.status(400).send();
     }
@@ -24,15 +22,13 @@ class AuthController {
       res.status(401).send();
       return;
     }
-    const token = jwt.sign(
-      { userId: user.id, username: user.username },
-      config.jwtSecret,
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ userId: user.id, username: user.username }, config.jwtSecret, {
+      expiresIn: '1h',
+    });
     res.send(token);
   };
 
-  static changePassword = async (req: Request, res: Response) => {
+  public static changePassword = async (req: Request, res: Response) => {
     const id = res.locals.jwtPayload.userId;
     const { oldPassword, newPassword } = req.body;
     if (!(oldPassword && newPassword)) {

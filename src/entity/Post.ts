@@ -1,44 +1,44 @@
-import { 
-    Column, 
-    Entity, 
-    PrimaryGeneratedColumn, 
-    CreateDateColumn, 
-    UpdateDateColumn,
-    ManyToOne,
-    OneToMany
-} from 'typeorm';
-import User from './User'
-import Comment from './Comment'
 import { IsNotEmpty } from 'class-validator';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import Comment from './Comment';
+import User from './User';
 
 @Entity()
 export class Post {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-    @Column()
-    @IsNotEmpty()
-    title: string;
+  @Column()
+  @IsNotEmpty()
+  public title: string;
 
-    @Column()
-    url: string;
+  @Column()
+  public url: string;
 
-    @Column()
-    text: string;
-    
-    @ManyToOne(() => User, (user) => user.posts, {eager: true})
-    user: User;
+  @Column()
+  public text: string;
 
-    @OneToMany(() => Comment, (comment) => comment.post)
-    comments: Comment[];
+  @ManyToOne(() => User, user => user.posts, { eager: true })
+  public user: User;
 
-    @Column()
-    @CreateDateColumn()
-    createdAt: Date;
-  
-    @Column()
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @OneToMany(() => Comment, comment => comment.post)
+  public comments: Comment[];
+
+  @Column()
+  @CreateDateColumn()
+  public createdAt: Date;
+
+  @Column()
+  @UpdateDateColumn()
+  public updatedAt: Date;
 }
 
 export default Post;
