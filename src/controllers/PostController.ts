@@ -42,7 +42,7 @@ static newPost = async (req: Request, res: Response) => {
   post.title = title;
   post.url = url || '';
   post.text = text || '';
-  post.author = user;
+  post.user = user;
   const errors = await validate(post);
   if (errors.length > 0) {
     res.status(400).send(errors);

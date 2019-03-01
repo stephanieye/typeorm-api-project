@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
+import { getRepository, createQueryBuilder } from "typeorm";
 import { validate } from "class-validator";
 import { User } from "../entity/User";
 
@@ -17,9 +17,11 @@ static getOneById = async (req: Request, res: Response) => {
   const id: number = req.params.id;
   const userRepository = getRepository(User);
   try {
-    const user = await userRepository.findOneOrFail(id, {
-      select: ["id", "username"]
-    });
+    const user = await userRepository
+    .createQueryBuilder("user")
+    .leftJoinAndSelect("user.posts", "post")
+    .where("user.id = :id", { id: id })
+    .getOne();
     res.send(user);
   } catch (error) {
     res.status(404).send("User not found");

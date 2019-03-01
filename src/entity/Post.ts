@@ -24,8 +24,8 @@ export class Post {
     @Column()
     text: string;
     
-    @ManyToOne(() => User, (author) => author.posts, {eager: true})
-    author: User;
+    @ManyToOne(() => User, (user) => user.posts, {eager: true})
+    user: User;
 
     @Column()
     @CreateDateColumn()

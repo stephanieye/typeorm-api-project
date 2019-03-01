@@ -28,7 +28,7 @@ export class User {
     @IsNotEmpty()
     password: string;
 
-    @OneToMany(() => Post, (post) => post.author)
+    @OneToMany(() => Post, (post) => post.user)
     posts: Post[];
   
     @Column()
