@@ -1,4 +1,4 @@
-**HACKER NEWS API CLONE**
+**HACKER NEWS API CLONE USING TYPEORM**
 -----
 ==========================================================================
 
@@ -114,7 +114,7 @@ Database is Postgres.app: https://postgresapp.com/
 
 - Tried to use Docker but it was too slow on my computer/wifi, while I had some difficulties when trying to use a downloaded PostgreSQL system.
 
-Heroku app is at https://first-backend-project-2019.herokuapp.com/
+Heroku app is at https://typeorm-api-project.herokuapp.com/
 
 - I always deployed to Heroku after succeeding locally so that I could tackle any difficulties step-by-step rather than accumulating them.
 
