@@ -8,7 +8,7 @@ export const checkIsAuthor = (req: Request, res: Response, next: NextFunction) =
     .findOne(req.params.id)
     .then(post => {
       const authorId = post.user.id;
-      if (authorId == currentUserId) {
+      if (authorId === currentUserId) {
         next();
       } else {
         res.status(404).send('Sorry, you are not authorised to modify this post 😿');

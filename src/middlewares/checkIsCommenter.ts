@@ -8,7 +8,7 @@ export const checkIsCommenter = (req: Request, res: Response, next: NextFunction
     .findOne(req.params.id)
     .then(comment => {
       const commenterId = comment.user.id;
-      if (commenterId == currentUserId) {
+      if (commenterId === currentUserId) {
         next();
       } else {
         res.status(404).send('Sorry, you are not authorised to modify this comment 😿');
