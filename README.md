@@ -4,34 +4,46 @@
 
 **Project Brief**
 
-The goal of the project is to build a simple Hacker News API clone. If you don’t know Hacker News, it’s a very simple website where anyone can submit a link of a short message to discuss a specific topic with the dev community.
+Here is the challenge:
 
-You need to build an API that will allow a frontend developer to build the following pages:
-- https://news.ycombinator.com/ (no need to consider points and pagination)
-- https://news.ycombinator.com/item?id=1925249 (including Add Comment feature, no need for points and nested / replies comments)
-- https://news.ycombinator.com/submit (including Login and Signup form, no need for reset password)
-
-Step 1: Defining the API architecture (a list of endpoints if you choose to build a REST API or a list of queries / mutations if you choose to build a GraphQL API). You’ll need to justify the architecture. Feel free to do 2/3 versions of the architecture and argue why is one better than the others.
-
-Step 2: Choice of technology. You have to use the following technologies: Typescript, NodeJS, TypeORM with a SQL database (SQLite or MySQL or PostgreSQL). If you choose to use external libraries, you’ll need to justify your choices (Is it something you can implement by yourself? Why this specific library? etc…)
-
-Step 3: Build the API locally (test it with your browser or with Postman or equivalent)
-
-Step 4: Push the code to a public git repository (using Github or equivalent)
-
-Bonus steps (no specific order):
-1. Write tests (you can use a TDD approach or write them afterwards)
-2. Deploy / host the API somewhere (Heroku and Zeit Now are good options for a simple project like this, but feel free to use something else if you want)
-3. Use Prettier to format the codebase
-4. Use ESLint with https://www.npmjs.com/package/eslint-config-airbnb-base (Hint: you can find help here to make ESLint work with Typescript)
+>The goal of the project is to build a simple Hacker News API clone. If you don’t know Hacker News, it’s a very simple website where anyone can submit a link of a short message to discuss a specific topic with the dev community.
+>
+>You need to build an API that will allow a frontend developer to build the following pages:
+>- https://news.ycombinator.com/ (no need to consider points and pagination)
+>- https://news.ycombinator.com/item?id=1925249 (including Add Comment feature, no need for points and nested / replies comments)
+>- https://news.ycombinator.com/submit (including Login and Signup form, no need for reset password)
+>
+>Step 1: Defining the API architecture (a list of endpoints if you choose to build a REST API or a list of queries / mutations if you choose to build a GraphQL API). You’ll need to justify the architecture. Feel free to do 2/3 versions of the architecture and argue why is one better than the others.
+>
+>Step 2: Choice of technology. You have to use the following technologies: Typescript, NodeJS, TypeORM with a SQL database (SQLite or MySQL or PostgreSQL). If you choose to use external libraries, you’ll need to justify your choices (Is it something you can implement by yourself? Why this specific library? etc…)
+>
+>Step 3: Build the API locally (test it with your browser or with Postman or equivalent)
+>
+>Step 4: Push the code to a public git repository (using Github or equivalent)
+>
+>Bonus steps (no specific order):
+>1. Write tests (you can use a TDD approach or write them afterwards)
+>2. Deploy / host the API somewhere (Heroku and Zeit Now are good options for a simple project like this, but feel free to use something else if you want)
+>3. Use Prettier to format the codebase
+>4. Use ESLint with https://www.npmjs.com/package/eslint-config-airbnb-base (Hint: you can find help here to make ESLint work with Typescript)
 
 ==========================================================================
 
 **Project Architecture**
 
-I created three entities, with these relationships and endpoints:
+I created three Entities: User, Post and Comment. 
 
-USER
+Each Entity has either a ManyToOne or OneToMany relationship with each of the other two (for example. a User can create many Posts, whereas a Comment can belong to only one Post.)
+
+I decided to create a REST API as that is what I'm familiar with. This is quite straightforward, with endpoints starting with /users, /posts and /comments respectively with which to carry out CRUD functions. 
+
+However, my main challenge was in POSTing a Comment, as I need the Post's id to link the Comment to it (something I could not obtain by POSTing straight to /comments). In the end, I created /posts/:id/comments so I could access the Post's id via req.params.
+
+I also had to protect certain routes with authentication, following Hacker News's own logic (you don't have to log in to read posts and comments, but you must log in to create posts and comments).
+
+Below are the three Entitities, their relationships and endpoints.
+
+**USER**
 
 Relationships
 - OneToMany with Post
@@ -44,7 +56,7 @@ Endpoints
 - PATCH /users/:id (needs authorisation with checkJwt and checkIsUser middlewares)
 - DELETE /users/:id (needs authorisation with checkJwt and checkIsUser middlewares)
 
-POST
+**POST**
 
 Relationships
 - ManyToOne with User
@@ -56,8 +68,10 @@ Endpoints
 - POST /posts (needs authorisation with checkJwt middleware)
 - PATCH /posts/:id (needs authorisation with checkJwt and checkIsAuthor middlewares)
 - DELETE /posts/:id (needs authorisation with checkJwt and checkIsAuthor middlewares)
+- GET /posts/:id/comments
+- POST /posts/:id/comments (needs authorisation with checkJwt middleware)
 
-COMMENT
+**COMMENT**
 
 Relationships
 - ManyToOne with User
@@ -66,13 +80,17 @@ Relationships
 Endpoints
 - GET /comments
 - GET /comments/:id
-- POST /comments (needs authorisation with checkJwt middleware)
 - PATCH /comments/:id (needs authorisation with checkJwt and checkIsCommenter middlewares)
 - DELETE /comments/:id (needs authorisation with checkJwt and checkIsCommenter middlewares)
 
+Lastly, I also needed two endpoints for **Authorisation**: logging in and changing the password (changing the password was not in the scope of the brief, but the tutorial I used taught it (see 'Resources' section below), so I just included it).
+
+- POST /auth/login
+- POST /auth/change-password
+
 ==========================================================================
 
-**Project Process**
+**Resources**
 
 Created using hello-nodejs-typescript starter code: https://github.com/larkintuckerllc/hello-nodejs-typescript
 
@@ -93,11 +111,12 @@ https://typeorm.io/
 **Tools**
 
 Database is Postgres.app: https://postgresapp.com/
-Tried to use Docker but it was too slow on my computer/wifi
-Had some difficulties when try to use a downloaded PostgreSQL system
+
+- Tried to use Docker but it was too slow on my computer/wifi, while I had some difficulties when trying to use a downloaded PostgreSQL system.
 
 Heroku app is at https://first-backend-project-2019.herokuapp.com/
-Always deployed to Heroku after succeeding locally so could tackle any difficulties step by step rather than accumulating them
+
+- I always deployed to Heroku after succeeding locally so that I could tackle any difficulties step-by-step rather than accumulating them.
 
 Postman for API development environment
 
