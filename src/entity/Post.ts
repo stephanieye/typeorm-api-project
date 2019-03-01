@@ -3,8 +3,10 @@ import {
     Entity, 
     PrimaryGeneratedColumn, 
     CreateDateColumn, 
-    UpdateDateColumn
+    UpdateDateColumn,
+    ManyToOne
 } from 'typeorm';
+import User from './User'
 import { IsNotEmpty } from 'class-validator';
 
 @Entity()
@@ -21,10 +23,9 @@ export class Post {
 
     @Column()
     text: string;
-
-    @Column()
-    @IsNotEmpty()
-    authorId: number; 
+    
+    @ManyToOne(() => User, (author) => author.posts, {eager: true})
+    author: User;
 
     @Column()
     @CreateDateColumn()

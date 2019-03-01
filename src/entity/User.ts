@@ -4,9 +4,11 @@ import {
     Column,
     Unique,
     CreateDateColumn,
-    UpdateDateColumn
+    UpdateDateColumn,
+    OneToMany
     } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
+import Post from './Post';
 import * as bcrypt from "bcryptjs";
   
 @Entity()
@@ -25,6 +27,9 @@ export class User {
     @Length(4, 100)
     @IsNotEmpty()
     password: string;
+
+    @OneToMany(() => Post, (post) => post.author)
+    posts: Post[];
   
     @Column()
     @CreateDateColumn()

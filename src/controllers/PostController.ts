@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { validate } from "class-validator";
 import { Post } from "../entity/Post";
+import { User } from "../entity/User";
 
 class PostController{
 
@@ -24,6 +25,14 @@ static getOneById = async (req: Request, res: Response) => {
 
 static newPost = async (req: Request, res: Response) => {
   const currentUserId = res.locals.jwtPayload.userId;
+  const userRepository = getRepository(User);
+  let user
+  try {
+    user = await userRepository.findOneOrFail(currentUserId);
+  } catch (error) {
+    res.status(404).send("User is not found");
+    return
+  }
   let { title, url, text } = req.body;
   if (url && text) {
     res.status(400).send('Sorry, you can either post a url or text, not both! 😾');
@@ -33,7 +42,7 @@ static newPost = async (req: Request, res: Response) => {
   post.title = title;
   post.url = url || '';
   post.text = text || '';
-  post.authorId = currentUserId
+  post.author = user;
   const errors = await validate(post);
   if (errors.length > 0) {
     res.status(400).send(errors);
