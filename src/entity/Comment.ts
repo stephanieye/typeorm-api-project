@@ -4,33 +4,26 @@ import {
     PrimaryGeneratedColumn, 
     CreateDateColumn, 
     UpdateDateColumn,
-    ManyToOne,
-    OneToMany
+    ManyToOne
 } from 'typeorm';
 import User from './User'
-import Comment from './Comment'
+import Post from './Post'
 import { IsNotEmpty } from 'class-validator';
 
 @Entity()
-export class Post {
+export class Comment {
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
     @IsNotEmpty()
-    title: string;
-
-    @Column()
-    url: string;
-
-    @Column()
     text: string;
     
-    @ManyToOne(() => User, (user) => user.posts, {eager: true})
+    @ManyToOne(() => User, (user) => user.comments, {eager: true})
     user: User;
 
-    @OneToMany(() => Comment, (comment) => comment.post)
-    comments: Comment[];
+    @ManyToOne(() => Post, (post) => post.comments, {eager: true})
+    post: Post;
 
     @Column()
     @CreateDateColumn()
@@ -41,4 +34,4 @@ export class Post {
     updatedAt: Date;
 }
 
-export default Post;
+export default Comment;

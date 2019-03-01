@@ -20,4 +20,12 @@ import { checkIsAuthor } from "../middlewares/checkIsAuthor";
   PostController.deletePost
   );
 
+  router.get('/:id/comments',
+  PostController.listAllComments
+  );
+
+  router.post('/:id/comments', [checkJwt],
+  PostController.newComment
+  );
+
   export default router;

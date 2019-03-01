@@ -9,6 +9,7 @@ import {
     } from "typeorm";
 import { Length, IsNotEmpty } from "class-validator";
 import Post from './Post';
+import Comment from './Comment';
 import * as bcrypt from "bcryptjs";
   
 @Entity()
@@ -30,6 +31,9 @@ export class User {
 
     @OneToMany(() => Post, (post) => post.user)
     posts: Post[];
+
+    @OneToMany(() => Comment, (comment) => comment.user)
+    comments: Comment[];
   
     @Column()
     @CreateDateColumn()

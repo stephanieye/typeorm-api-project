@@ -3,6 +3,7 @@ import { getRepository } from "typeorm";
 import { validate } from "class-validator";
 import { Post } from "../entity/Post";
 import { User } from "../entity/User";
+import { Comment } from "../entity/Comment";
 
 class PostController{
 
@@ -104,6 +105,62 @@ static deletePost = async (req: Request, res: Response) => {
   postRepository.delete(id);
   res.status(204).send();
 };
+
+static listAllComments = async (req: Request, res: Response) => {
+  const id: number = req.params.id;
+  const postRepository = getRepository(Post);
+  try {
+    const post = await postRepository
+    .createQueryBuilder("post")
+    .leftJoinAndSelect("post.comments", "comment")
+    .where("post.id = :id", { id: id })
+    .getOne();
+    res.send(post.comments);
+  } catch (error) {
+    res.status(404).send("Post not found");
+  }
+};
+
+static newComment = async (req: Request, res: Response) => {
+  const currentPostId = req.params.id
+  const currentUserId = res.locals.jwtPayload.userId;
+  const postRepository = getRepository(Post);
+  let post
+  try {
+    post = await postRepository.findOneOrFail(currentPostId);
+  } catch (error) {
+    res.status(404).send("Post is not found");
+    return
+  }
+  const userRepository = getRepository(User);
+  let user
+  try {
+    user = await userRepository.findOneOrFail(currentUserId);
+  } catch (error) {
+    res.status(404).send("User is not found");
+    return
+  }
+  let { text } = req.body;
+  let comment = new Comment();
+  comment.text = text;
+  comment.user = user;
+  comment.post = post;
+  const errors = await validate(comment);
+  if (errors.length > 0) {
+    res.status(400).send(errors);
+    return;
+  }
+  const commentRepository = getRepository(Comment);
+  try {
+    await commentRepository.save(comment);
+  } catch (e) {
+    console.log(e)
+    res.status(500).send("Sorry, something went wrong 😿");
+    return;
+  }
+  res.status(201).send("Comment created");
+};
+
 };
 
 export default PostController;
