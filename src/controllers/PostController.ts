@@ -108,16 +108,16 @@ static deletePost = async (req: Request, res: Response) => {
 
 static listAllComments = async (req: Request, res: Response) => {
   const id: number = req.params.id;
-  const postRepository = getRepository(Post);
+  const commentRepository = getRepository(Comment);
   try {
-    const post = await postRepository
-    .createQueryBuilder("post")
-    .leftJoinAndSelect("post.comments", "comment")
-    .where("post.id = :id", { id: id })
-    .getOne();
-    res.send(post.comments);
+    const comments = await commentRepository
+    .createQueryBuilder("comment")
+    .leftJoinAndSelect("comment.user", "user")
+    .where("comment.post.id = :id", { id: id })
+    .getMany();
+    res.send(comments);
   } catch (error) {
-    res.status(404).send("Post not found");
+    res.status(404).send("Comments not found for this post");
   }
 };
 
