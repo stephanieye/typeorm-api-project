@@ -9,7 +9,6 @@ class UserController {
     try {
       const users = await userRepository
         .createQueryBuilder('user')
-        .select(['user.id', 'user.username', 'user.createdAt', 'user.updatedAt'])
         .leftJoinAndSelect('user.posts', 'post')
         .leftJoinAndSelect('user.comments', 'comment')
         .getMany();
@@ -25,7 +24,6 @@ class UserController {
     try {
       const user = await userRepository
         .createQueryBuilder('user')
-        .select(['user.id', 'user.username', 'user.createdAt', 'user.updatedAt'])
         .leftJoinAndSelect('user.posts', 'post')
         .leftJoinAndSelect('user.comments', 'comment')
         .where('user.id = :id', { id })
