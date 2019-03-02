@@ -39,7 +39,9 @@ Each Entity has either a ManyToOne or OneToMany relationship with each of the ot
 
 I decided to create a REST API as that is what I'm familiar with. This is quite straightforward, with endpoints starting with /users, /posts and /comments respectively with which to carry out CRUD functions.
 
-For the GET endpoints, I also tried to return as much data as possible as I thought it would be helpful for the Frontend developer. So, when you GET /users/:id, you get the User as well as all the User's Posts and Comments. When you GET /posts/:id, you get the Post and the User who wrote the Post (but not the Comments -- I will explain soon below). When you GET /comments/:id, you get the Comment, the Post the Comment belongs to, and the User who wrote the Comment.
+(There is a fourth for Authentication, /auth, with two POST endpoints that take passwords, for logging in and changing the password. Changing the password was not in the scope of the brief, but the tutorial I used taught it (see 'Resources' section below), so I just included it.)
+
+For the GET endpoints, I tried to return as much data as possible as I thought it would be helpful for the Frontend developer. So, when you GET /users/:id, you get the User as well as all the User's Posts and Comments. When you GET /posts/:id, you get the Post and the User who wrote the Post (but not the Comments -- I will explain soon below). When you GET /comments/:id, you get the Comment, the Post the Comment belongs to, and the User who wrote the Comment.
 
 Of course, maybe returning so much data is too overwhelming if there are a lot of entries, so I might choose to leave out some data if this API were to be used on a large scale.
 
@@ -47,7 +49,9 @@ As for challenges, my main challenge was in POSTing a Comment, as I need the Pos
 
 As it turned out, the /posts/:id/comments endpoint was also useful for GETting the Comments for a Post. If I tried to include a Post's Comments in the body returned from GETting /posts/:id, the Comment's User field would not be populated, because I don't know how to use TypeORM's Query Builder to 'join' an Entity two layers deep (Post>Comment>User). It is not very useful to have a Comment's data without knowing which User wrote the Comment, so in the end this endpoint really proved its utility (letting me just join Comment>User).
 
-I also had to protect certain routes with authentication, following Hacker News's own logic (you don't have to log in to read posts and comments, but you must log in to create posts and comments). And Users should only be able to edit/delete their own Posts/Comments, as well as their own User details.
+I also had to protect certain routes with authorisation, following Hacker News's own logic (you don't have to log in to read posts and comments, but you must log in to create posts and comments). And Users should only be able to edit/delete their own Posts/Comments, as well as their own User details.
+
+Lastly, I made the User password field a Hidden Column so that by default it does not return in API calls, and used addSelect to add the password to the body only when necessary, i.e, in the two Authentication API calls.
 
 Below are the three Entitities, their relationships and endpoints.
 
@@ -97,7 +101,7 @@ Endpoints
 - PATCH /comments/:id (needs authorisation with checkJwt and checkIsCommenter middlewares)
 - DELETE /comments/:id (needs authorisation with checkJwt and checkIsCommenter middlewares)
 
-Lastly, I also needed two endpoints for **Authorisation**: logging in and changing the password (changing the password was not in the scope of the brief, but the tutorial I used taught it (see 'Resources' section below), so I just included it).
+Lastly, two endpoints for **Authentication**: logging in and changing the password.
 
 - POST /auth/login
 - POST /auth/change-password
