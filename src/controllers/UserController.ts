@@ -28,7 +28,8 @@ class UserController {
         .leftJoinAndSelect('user.comments', 'comment')
         .where('user.id = :id', { id })
         .getOne();
-      res.send(user);
+      if (user) res.send(user);
+      else res.status(404).send('User not found');
     } catch (error) {
       res.status(404).send('User not found');
     }
@@ -66,7 +67,7 @@ class UserController {
       res.status(404).send('User not found');
       return;
     }
-    user.username = username;
+    user = { ...user, username: username };
     const errors = await validate(user);
     if (errors.length > 0) {
       res.status(400).send(errors);
