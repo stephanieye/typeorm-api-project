@@ -27,7 +27,7 @@ Here is the challenge:
 > 1.  Write tests (you can use a TDD approach or write them afterwards)
 > 2.  Deploy / host the API somewhere (Heroku and Zeit Now are good options for a simple project like this, but feel free to use something else if you want)
 > 3.  Use Prettier to format the codebase
-> 4.  Use ESLint with https://www.npmjs.com/package/eslint-config-airbnb-base (Hint: you can find help here to make ESLint work with Typescript)
+> 4.  Use ESLint with https://www.npmjs.com/package/eslint-config-airbnb-base
 
 ==========================================================================
 
