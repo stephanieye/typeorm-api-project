@@ -53,7 +53,7 @@ I also had to protect certain routes with authorisation, following Hacker News's
 
 TypeORM's onDelete: CASCADE was also useful to ensure that when an Entity instance is deleted, dependent Entity instances also are. For example, when a User is deleted, so are the Posts and Comments the User made. If a Post is deleted, so are the Comments on that Post.
 
-Lastly, I made the User password field a Hidden Column so that by default it does not return in API calls, and used addSelect to add the password to the body only when necessary, i.e, in the two Authentication API calls.
+Lastly, I made the User password field a Hidden Column so that by default it does not return in API calls, and used addSelect to add the password only when necessary, i.e, when the User data is retrieved during Authentication.
 
 Below are the three Entitities, their relationships and endpoints.
 
