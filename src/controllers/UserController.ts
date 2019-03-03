@@ -79,7 +79,7 @@ class UserController {
       res.status(409).send('Sorry, this username already exists 😿');
       return;
     }
-    res.status(204).send();
+    res.status(200).send('User updated');
   };
 
   public static deleteUser = async (req: Request, res: Response) => {
@@ -93,7 +93,7 @@ class UserController {
       return;
     }
     userRepository.delete(id);
-    res.status(204).send('Goodbye!');
+    res.status(200).send('Goodbye!');
   };
 }
 
