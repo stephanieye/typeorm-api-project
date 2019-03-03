@@ -51,6 +51,8 @@ As it turned out, the /posts/:id/comments endpoint was also useful for GETting t
 
 I also had to protect certain routes with authorisation, following Hacker News's own logic (you don't have to log in to read posts and comments, but you must log in to create posts and comments). And Users should only be able to edit/delete their own Posts/Comments, as well as their own User details.
 
+TypeORM's onDelete: CASCADE was also useful to ensure that when an Entity instance is deleted, dependent Entity instances also are. For example, when a User is deleted, so are the Posts and Comments the User made. If a Post is deleted, so are the Comments on that Post.
+
 Lastly, I made the User password field a Hidden Column so that by default it does not return in API calls, and used addSelect to add the password to the body only when necessary, i.e, in the two Authentication API calls.
 
 Below are the three Entitities, their relationships and endpoints.
