@@ -1,3 +1,7 @@
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 export default {
-  jwtSecret: 'cRYpToKittEH!!!',
-}
+  jwtSecret: process.env.SECRET,
+};
