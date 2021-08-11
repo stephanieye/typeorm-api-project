@@ -156,4 +156,4 @@ npm run serve/npm run start (only starts the application)
 
 **Contact**
 
-https://github.com/stephslye
+https://github.com/stephanieye
