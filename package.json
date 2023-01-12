@@ -33,7 +33,7 @@
     "@types/jsonwebtoken": "^8.3.0",
     "@types/pg": "^7.4.13",
     "bcryptjs": "^2.4.3",
-    "class-validator": "^0.9.1",
+    "class-validator": "^0.14.0",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
